@@ -30,6 +30,7 @@ class MainWindow(QWidget):
 
         self.language_box = QComboBox()
         self.language_box.addItems(["German", "Englisch", "French"])
+        self.language_box.setCurrentIndex(1)
         self.language_box.currentTextChanged.connect(self.setLanguage)
 
         self.type_label = QLabel("What type of joke do you\nwant to hear?\t", alignment = Qt.AlignmentFlag.AlignLeft)
@@ -38,6 +39,7 @@ class MainWindow(QWidget):
 
         self.type_box = QComboBox()
         self.type_box.addItems(["One liner", "Surprise", "Two liner"])
+        self.type_box.setCurrentIndex(1)
         self.type_box.currentTextChanged.connect(self.setType)
 
         self.joke_label = QLabel("", alignment = Qt.AlignmentFlag.AlignCenter)
@@ -63,20 +65,14 @@ class MainWindow(QWidget):
     def setLanguage(self):
         self.backend.joke_language = self.language_box.currentIndex()
         self.backend.setURl()
-        print(self.language_box.currentIndex())
-        print(self.backend.url)
 
     def setType(self):
         self.backend.joke_type = self.type_box.currentIndex()
         self.backend.setURl()
-        print(self.type_box.currentIndex())
-        print(self.backend.url)
 
     def printJoke(self):
         self.backend.setJokeText()
         self.joke_label.setText(self.backend.jokeText)
-        
-        print(self.backend.jokeText)
 
 
 if __name__ == "__main__":
