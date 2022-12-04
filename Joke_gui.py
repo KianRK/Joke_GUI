@@ -13,12 +13,13 @@ class MainWindow(QWidget):
         self.backend = JokeBE()
 
     def initializeUI(self):
-        self.setGeometry(250, 250, 350, 300)
+        self.setGeometry(250, 250, 400, 300)
         self.setWindowTitle("Have a little laugh")
-        self.setMinimumWidth(300)
+        self.setMinimumWidth(400)
+        self.setMaximumWidth(500)
         
         self.setMinimumHeight(300)
-        self.setMaximumHeight(600)
+        self.setMaximumHeight(450)
 
         self.setUpMainWindow()
         self.show()
@@ -32,6 +33,7 @@ class MainWindow(QWidget):
         self.language_box.addItems(["German", "Englisch", "French"])
         self.language_box.setCurrentIndex(1)
         self.language_box.currentTextChanged.connect(self.setLanguage)
+        self.language_box.setMaximumWidth(120)
 
         self.type_label = QLabel("What type of joke do you\nwant to hear?\t", alignment = Qt.AlignmentFlag.AlignLeft)
         self.type_label.setWordWrap(True)
@@ -41,12 +43,18 @@ class MainWindow(QWidget):
         self.type_box.addItems(["One liner", "Surprise", "Two liner"])
         self.type_box.setCurrentIndex(1)
         self.type_box.currentTextChanged.connect(self.setType)
+        self.type_box.setMaximumWidth(120)
 
         self.joke_label = QLabel("", alignment = Qt.AlignmentFlag.AlignCenter)
         self.joke_label.setWordWrap(True)
 
         self.tellButton = QPushButton("Make me laugh!")
         self.tellButton.pressed.connect(self.printJoke)
+        self.tellButton.setMaximumWidth(140)
+
+        h_button_box = QHBoxLayout()
+        h_button_box.addWidget(self.tellButton)
+        h_button_box.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         h_language_box = QHBoxLayout()
         h_language_box.addWidget(self.language_label)
@@ -58,8 +66,9 @@ class MainWindow(QWidget):
 
         v_box = QVBoxLayout(self)
         v_box.addLayout(h_language_box)
+        v_box.addSpacing(15)
         v_box.addLayout(h_type_box)
-        v_box.addWidget(self.tellButton)
+        v_box.addLayout(h_button_box)
         v_box.addWidget(self.joke_label)
 
     def setLanguage(self):
