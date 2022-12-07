@@ -1,11 +1,10 @@
 import sys
-from PyQt6.QtWidgets import QApplication, QWidget, QComboBox, QLabel, QHBoxLayout, QVBoxLayout, QPushButton
+from PyQt6.QtWidgets import QApplication, QFileDialog, QMainWindow, QWidget, QComboBox, QLabel, QHBoxLayout, QVBoxLayout, QPushButton
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QFont
+from PyQt6.QtGui import QFont, QAction
 from Joke_backend import JokeBE
-import urllib.request as ulib
 
-class MainWindow(QWidget):
+class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
@@ -22,6 +21,8 @@ class MainWindow(QWidget):
         self.setMaximumHeight(450)
 
         self.setUpMainWindow()
+        self.createActions()
+        self.createMenu()
         self.show()
 
     def setUpMainWindow(self):
@@ -64,12 +65,35 @@ class MainWindow(QWidget):
         h_type_box.addWidget(self.type_label)
         h_type_box.addWidget(self.type_box)
 
-        v_box = QVBoxLayout(self)
+        v_box = QVBoxLayout()
         v_box.addLayout(h_language_box)
         v_box.addSpacing(15)
         v_box.addLayout(h_type_box)
         v_box.addLayout(h_button_box)
         v_box.addWidget(self.joke_label)
+
+        container = QWidget()
+        container.setLayout(v_box)
+        self.setCentralWidget(container)
+
+    def createActions(self):
+        self.quit_act = QAction("&Quit")
+        self.quit_act.setShortcut("Ctrl+Q")
+        self.quit_act.triggered.connect(self.close)
+
+        self.save_joke = QAction("&Save Joke")
+        self.save_joke.setShortcut("Ctrl+O")
+        self.save_joke.triggered.connect(self.saveJoke)
+
+    def createMenu(self):
+        self.menuBar().setNativeMenuBar(False)
+        file_menu = self.menuBar().addMenu("File")
+        file_menu.addAction(self.quit_act)
+        file_menu.addAction(self.save_joke)
+
+    def saveJoke(self):
+        file_name, ok = QFileDialog.getSaveFileName(self, "Open File", "/home/kian/Desktop/", "Text Files (*.txt)")
+
 
     def setLanguage(self):
         self.backend.joke_language = self.language_box.currentIndex()
