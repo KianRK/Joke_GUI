@@ -4,11 +4,14 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont, QAction
 from Joke_backend import JokeBE
 
+#our class inherits from QMainWindow, since it has methods for creating,
+#menus and toolbars
 class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
         self.initializeUI()
+        #Creating an instance of JokeBE, which is our applications backend
         self.backend = JokeBE()
 
     def initializeUI(self):
@@ -19,37 +22,58 @@ class MainWindow(QMainWindow):
         
         self.setMinimumHeight(300)
         self.setMaximumHeight(450)
-
+        #below we execute self defined methods that get implemented further below.
+        #Since they are called inside initializeUI, which by itself is called in __init__,
+        #all these methods get executed once we create a MainWindow instance.
         self.setUpMainWindow()
         self.createActions()
         self.createMenu()
+
+        #A built in method of QMainWindow to display the window on screen.
         self.show()
 
+    #In this meth
     def setUpMainWindow(self):
+
+        #These next lines create the individual elements resp. the widgets that are nested inside our Main Window
+        #First we create a text label as a QLabel instance to give the user the instruction choose a joke language.
         self.language_label = QLabel("In what language do you\nwant to laugh?\t", alignment = Qt.AlignmentFlag.AlignLeft)
         self.language_label.setWordWrap(True)
         self.language_label.setFont(QFont("Noto Sans", 12))
 
+        #Creating a dropdown menu as a QComboBox instance and adding the choosable languages with
+        #the addItems method.
         self.language_box = QComboBox()
         self.language_box.addItems(["German", "Englisch", "French"])
+        #Setting the current index to 1 resp. "Englisch", since that is the default setting
+        #for the url that is requestion from the jokeapi website
         self.language_box.setCurrentIndex(1)
+        #Connecting the Widget with the setLanguage method so that each time the choosen language
+        #is changed, the joke_language attribute and the url attribute of the backend instance gets updated
         self.language_box.currentTextChanged.connect(self.setLanguage)
         self.language_box.setMaximumWidth(120)
 
+        #Creating a text label as a QLabel instance to give the user the instruction choose a joke type.
         self.type_label = QLabel("What type of joke do you\nwant to hear?\t", alignment = Qt.AlignmentFlag.AlignLeft)
         self.type_label.setWordWrap(True)
         self.type_label.setFont(QFont("Noto Sans", 12))
 
+        #Functionality analog to self.language box only that languages are replaced with joke types
         self.type_box = QComboBox()
         self.type_box.addItems(["One liner", "Surprise", "Two liner"])
         self.type_box.setCurrentIndex(1)
         self.type_box.currentTextChanged.connect(self.setType)
         self.type_box.setMaximumWidth(120)
 
+        #A QLabel instance, created empty, in which the joke text will later be displayed.
         self.joke_label = QLabel("", alignment = Qt.AlignmentFlag.AlignCenter)
         self.joke_label.setWordWrap(True)
 
+        #Creating a QPushButton instance with wich the user can request a joke with the
+        #set parameters.
         self.tellButton = QPushButton("Make me laugh!")
+        #Connencting the button with the printJoke method of the backend instance, that sets the joke
+        #text inside the joke_label widget.
         self.tellButton.pressed.connect(self.printJoke)
         self.tellButton.setMaximumWidth(140)
 

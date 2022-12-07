@@ -22,10 +22,15 @@ class JokeBE(object):
 
         self.joke_dict = json.loads(self.url_txt)
 
+    #This method uses the urllib module and json to first open the set url
+    #and then load a dictionary from the webpage witch which the single joke elements
+    #can be accessed.
     def setJokeText(self):
         self.url_txt = ulib.urlopen(self.url).read()
         self.joke_dict = json.loads(self.url_txt)
         
+        #Since the first implementation there was a change on the website so that some joke types in 
+        #french do not always constitute a valid request and throw a KeyError, which is excepted below.
         try:
             if self.joke_dict["type"] == "twopart":
                 self.jokeText = self.joke_dict["setup"] + "\n\n" + self.joke_dict["delivery"]
