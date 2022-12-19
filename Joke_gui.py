@@ -4,6 +4,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont, QAction
 from Joke_backend import JokeBE
 
+
 #our class inherits from QMainWindow, since it has methods for creating,
 #menus and toolbars
 class MainWindow(QMainWindow):
@@ -38,6 +39,7 @@ class MainWindow(QMainWindow):
         #These next lines create the individual elements resp. the widgets that are nested inside our Main Window
         #First we create a text label as a QLabel instance to give the user the instruction choose a joke language.
         self.language_label = QLabel("In what language do you\nwant to laugh?\t", alignment = Qt.AlignmentFlag.AlignLeft)
+        self.language_label.setObjectName("Description_Label")
         self.language_label.setWordWrap(True)
         self.language_label.setFont(QFont("Noto Sans", 12))
 
@@ -55,6 +57,7 @@ class MainWindow(QMainWindow):
 
         #Creating a text label as a QLabel instance to give the user the instruction choose a joke type.
         self.type_label = QLabel("What type of joke do you\nwant to hear?\t", alignment = Qt.AlignmentFlag.AlignLeft)
+        self.type_label.setObjectName("Description_Label")
         self.type_label.setWordWrap(True)
         self.type_label.setFont(QFont("Noto Sans", 12))
 
