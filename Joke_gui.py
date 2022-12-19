@@ -4,6 +4,19 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont, QAction
 from Joke_backend import JokeBE
 
+style_sheet = """
+
+    QWidget{
+        font-family: helvetica
+    }
+
+    QLabel#Description_Label{
+        background-color: skyblue;
+        color: black;
+        border-radius: 5px;
+        border-width: 3px;
+    }
+"""
 
 #our class inherits from QMainWindow, since it has methods for creating,
 #menus and toolbars
@@ -137,5 +150,6 @@ class MainWindow(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    app.setStyleSheet(style_sheet)
     window = MainWindow()
     sys.exit(app.exec())
